@@ -4,6 +4,7 @@
   padding: 10px;
   cursor: pointer;
   margin-top: 20px;
+  border: 1px solid #eee;
 }
 
 .conversation__selected {

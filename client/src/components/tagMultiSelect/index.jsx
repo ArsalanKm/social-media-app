@@ -35,7 +35,6 @@ export default function TagMultiSelect({ tags, onclick }) {
          target: { value },
       } = event;
       setPersonName(
-         // On autofill we get a stringified value.
          typeof value === 'string' ? value.split(',') : value
       );
    };
@@ -43,14 +42,14 @@ export default function TagMultiSelect({ tags, onclick }) {
    return (
       <div>
          <FormControl sx={{ m: 1, width: 150 }}>
-            <InputLabel id='demo-multiple-name-label'>Name</InputLabel>
+            <InputLabel id='demo-multiple-name-label'>دسته بندی</InputLabel>
             <Select
                labelId='demo-multiple-name-label'
                id='demo-multiple-name'
                multiple
                value={personName}
                onChange={handleChange}
-               input={<OutlinedInput label='Name' />}
+               input={<OutlinedInput label='تگ' />}
                MenuProps={MenuProps}
             >
                {tags.map((el) => (

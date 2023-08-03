@@ -1,7 +1,18 @@
-.feed{
-    flex:5.5
+.feed {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.feedWrapper{
-    padding: 20px;
+.feedWrapper {
+  padding: 20px;
+}
+@media screen and (max-width: 768px) {
+  .post {
+    width: 350px;
+  }
 }

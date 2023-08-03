@@ -74,7 +74,7 @@ export default function Post({ post, fetchPosts }) {
             {post.userId === currentUser._id && (
               <Button
                 onClick={() => onDelete(post._id)}
-                style={{ height: '30px', marginInlineEnd: '6px' }}
+                style={{ height: '30px' }}
                 variant='outlined'
                 color='error'
               >
@@ -94,10 +94,10 @@ export default function Post({ post, fetchPosts }) {
                     });
                   }
                   if (res.data) {
-                    history.push(({
+                    history.push({
                       pathname: '/messenger',
-                      state: { conversationId: res.data._id }
-                    }));
+                      state: { conversationId: res.data._id },
+                    });
                   }
                 }}
                 style={{ height: '30px' }}
@@ -127,10 +127,10 @@ export default function Post({ post, fetchPosts }) {
               onClick={likeHandler}
               alt=''
             />
-            <span className='postLikeCounter'>{like} people like it</span>
+            <span className='postLikeCounter'>{like}نفر لایک کرده </span>
           </div>
           <div className='postBottomRight'>
-            <span className='postCommentText'>{post.comment} comments</span>
+            <span className='postCommentText'>{post.comment} کامنت</span>
           </div>
         </div>
       </div>

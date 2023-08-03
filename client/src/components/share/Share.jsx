@@ -63,7 +63,7 @@ export default function Share() {
             alt=''
           />
           <input
-            placeholder={"What's in your mind " + user.username + '?'}
+            placeholder={user.username + ' اگهی های خود را اشتراک بذارید '}
             className='shareInput'
             ref={desc}
           />
@@ -79,7 +79,7 @@ export default function Share() {
           <div className='shareOptions'>
             <label htmlFor='file' className='shareOption'>
               <PermMedia htmlColor='tomato' className='shareIcon' />
-              <span className='shareOptionText'>Photo or Video</span>
+              <span className='shareOptionText'>عکس</span>
               <input
                 style={{ display: 'none' }}
                 type='file'
@@ -90,12 +90,12 @@ export default function Share() {
             </label>
             <div className='shareOption'>
               <Label htmlColor='blue' className='shareIcon' />
-              <span className='shareOptionText'>Tag</span>
+              <span className='shareOptionText'>تگ</span>
               <TagMultiSelect onclick={handleTagClick} tags={tags} />
             </div>
           </div>
           <button className='shareButton' type='submit'>
-            Share
+            اشتراک
           </button>
         </form>
       </div>

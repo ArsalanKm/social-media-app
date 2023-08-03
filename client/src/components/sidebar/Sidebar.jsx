@@ -6,18 +6,27 @@ import {
   WorkOutline,
   Event,
   School,
+  CloseOutlined,
 } from '@material-ui/icons';
 import axios from 'axios';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
 import CloseFriend from '../closeFriend/CloseFriend';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useContext } from 'react';
 import { SearchContext } from '../../context/search/SearchContext';
+import { AuthContext } from '../../context/auth/AuthContext';
+import { IconButton } from '@material-ui/core';
 
 export default function Sidebar() {
   const [users, setUsers] = useState([]);
   const location = useLocation();
   const history = useHistory();
+  const [open, setOpen] = useState(false);
+  const { sidebar, dispatch: AuthDispatch } = useContext(AuthContext);
+
+  const matches = useMediaQuery('(max-width:768px)');
+
   const { tag, dispatch } = useContext(SearchContext);
   const [show, setShow] = useState(true);
   const queryParams = new URLSearchParams();
@@ -29,7 +38,7 @@ export default function Sidebar() {
     const paths = ['/messenger', '/login', '/register'];
     if (paths.includes(location.pathname)) {
       setShow(false);
-    } else (setShow(true));
+    } else setShow(true);
   }, [location.pathname]);
   const onClick = (title) => {
     queryParams.append('tag', title);
@@ -43,9 +52,21 @@ export default function Sidebar() {
   if (!show) {
     return null;
   }
+
   return (
-    <div className='sidebar'>
+    <div className={`sidebar${sidebar ? '__mobile' : ''}`}>
       <div className='sidebarWrapper'>
+        <div className='closeIcon'>
+          {matches && (
+            <IconButton
+              onClick={() => {
+                AuthDispatch({ type: 'SIDEBAR' });
+              }}
+            >
+              <CloseOutlined />
+            </IconButton>
+          )}
+        </div>
         <ul className='sidebarList'>
           <li onClick={() => onClick('jobs')} className='sidebarListItem'>
             <DirectionsCarOutlined className='sidebarIcon' />

@@ -14,14 +14,15 @@
   display: flex;
   height: 100%;
   align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
-
-.topbarLeft {
-  flex: 3;
+.form {
+  width: 100%;
+  max-width: 500px;
 }
-
 .logo {
-  font-size: 24px;
+  font-size: 0.875rem;
   margin-left: 20px;
   font-weight: bold;
   color: white;
@@ -34,9 +35,10 @@
 
 .searchbar {
   width: 100%;
+  max-width: 500px;
   height: 30px;
   background-color: white;
-  border-radius: 30px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
 }
@@ -102,8 +104,26 @@
   cursor: pointer;
 }
 
+.topbarRight {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 25px;
+}
+
 @media screen and (max-width: 768px) {
   .topbarLink {
     display: none;
+  }
+  .topbarCenter {
+    width: 100%;
+  }
+  .topbarContent {
+    flex-direction: column;
+  }
+  .topbarContainer {
+    height: 115px;
+    padding: 8px;
   }
 }

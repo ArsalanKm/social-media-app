@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   user: JSON.parse(localStorage.getItem('user')) || null,
   isFetching: false,
   error: false,
+  sidebar: false
 };
 
 export const AuthContext = createContext(INITIAL_STATE);
@@ -33,6 +34,7 @@ export const AuthContextProvider = ({ children }) => {
         isFetching: state.isFetching,
         error: state.error,
         dispatch,
+        sidebar: state.sidebar
       }}
     >
       {children}

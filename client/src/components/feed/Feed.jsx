@@ -9,12 +9,10 @@ export default function Feed({ username, posts, fetchPosts }) {
 
   return (
     <div className='feed'>
-      <div className='feedWrapper'>
-        {(!username || username === user.username) && <Share />}
-        {posts.map((p) => (
-          <Post fetchPosts={fetchPosts} key={p._id} post={p} />
-        ))}
-      </div>
+      {(!username || username === user.username) && <Share />}
+      {posts.map((p) => (
+        <Post fetchPosts={fetchPosts} key={p._id} post={p} />
+      ))}
     </div>
   );
 }

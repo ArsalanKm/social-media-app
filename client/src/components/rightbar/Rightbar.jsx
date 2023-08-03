@@ -85,11 +85,15 @@ export default function Rightbar({ user }) {
             {followed ? <Remove /> : <Add />}
           </button>
         )}
-        <h4 className='rightbarTitle'>User information</h4>
+        <h4 className='rightbarTitle'>اطلاعات کاربر</h4>
         <div className='rightbarInfo'>
           <div className='rightbarInfoItem'>
-            <span className='rightbarInfoKey'>Email:</span>
+            <span className='rightbarInfoKey'>ایمیل :</span>
             <span className='rightbarInfoValue'>{user.email}</span>
+          </div>
+          <div className='rightbarInfoItem'>
+            <span className='rightbarInfoKey'>نام :</span>
+            <span className='rightbarInfoValue'>{user.username}</span>
           </div>
         </div>
         <h4 className='rightbarTitle'>User friends</h4>

@@ -119,7 +119,6 @@ export default function Messenger() {
       <div className='messenger'>
         <div className='chatMenu'>
           <div className='chatMenuWrapper'>
-            <input placeholder='Search for friends' className='chatMenuInput' />
             {conversations.map((c, index) => (
               <div
                 key={index}
@@ -146,12 +145,12 @@ export default function Messenger() {
                 <div className='chatBoxBottom'>
                   <textarea
                     className='chatMessageInput'
-                    placeholder='write something...'
+                    placeholder=' ...پیام خود را بنویسید'
                     onChange={(e) => setNewMessage(e.target.value)}
                     value={newMessage}
                   ></textarea>
                   <button className='chatSubmitButton' onClick={handleSubmit}>
-                    Send
+                    ارسال
                   </button>
                 </div>
               </>

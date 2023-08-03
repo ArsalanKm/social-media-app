@@ -56,38 +56,8 @@ export default function Profile() {
   return (
     <>
       <div className='profile'>
-        <div className='profileRight'>
-          <div className='profileRightTop'>
-            <div className='profileCover'>
-              <img
-                className='profileCoverImg'
-                src={
-                  user.coverPicture
-                    ? PF + user.coverPicture
-                    : PF + 'person/noCover.png'
-                }
-                alt=''
-              />
-              <img
-                className='profileUserImg'
-                src={
-                  user.profilePicture
-                    ? PF + user.profilePicture
-                    : PF + 'person/noAvatar.png'
-                }
-                alt=''
-              />
-            </div>
-            <div className='profileInfo'>
-              <h4 className='profileInfoName'>{user.username}</h4>
-              <span className='profileInfoDesc'>{user.desc}</span>
-            </div>
-          </div>
-          <div className='profileRightBottom'>
-            <Feed posts={posts} username={username} fetchPosts={fetchPosts} />
-            <Rightbar user={user} />
-          </div>
-        </div>
+        <Rightbar user={user} />
+        <Feed posts={posts} username={username} fetchPosts={fetchPosts} />
       </div>
     </>
   );
