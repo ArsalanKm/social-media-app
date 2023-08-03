@@ -57,6 +57,7 @@
 }
 
 .rightbarInfoKey {
+  white-space: nowrap;
   font-weight: 500;
   margin-inline-end: 15px;
   color: #555;

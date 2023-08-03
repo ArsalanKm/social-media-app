@@ -37,7 +37,7 @@ export default function Rightbar({ user }) {
       }
     };
     getFriends();
-  }, [user?._id]);
+  }, [user?._id, followed]);
 
   const handleClick = async () => {
     try {
@@ -81,7 +81,7 @@ export default function Rightbar({ user }) {
       <>
         {user.username !== currentUser.username && (
           <button className='rightbarFollowButton' onClick={handleClick}>
-            {followed ? 'Unfollow' : 'Follow'}
+            {followed ? 'رفع دنبال کردن' : 'دنبال کردن'}
             {followed ? <Remove /> : <Add />}
           </button>
         )}
@@ -96,7 +96,7 @@ export default function Rightbar({ user }) {
             <span className='rightbarInfoValue'>{user.username}</span>
           </div>
         </div>
-        <h4 className='rightbarTitle'>User friends</h4>
+        <h4 className='rightbarTitle'>followings</h4>
         <div className='rightbarFollowings'>
           {friends.map((friend) => (
             <Link

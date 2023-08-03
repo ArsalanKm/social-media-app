@@ -8,6 +8,11 @@
   margin-top: 20px;
 }
 
+.sidebar__followings {
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
 }

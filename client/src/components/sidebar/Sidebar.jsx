@@ -22,16 +22,15 @@ export default function Sidebar() {
   const [users, setUsers] = useState([]);
   const location = useLocation();
   const history = useHistory();
-  const [open, setOpen] = useState(false);
-  const { sidebar, dispatch: AuthDispatch } = useContext(AuthContext);
+  const { sidebar, dispatch: AuthDispatch, user } = useContext(AuthContext);
 
   const matches = useMediaQuery('(max-width:768px)');
 
-  const { tag, dispatch } = useContext(SearchContext);
+  const { dispatch } = useContext(SearchContext);
   const [show, setShow] = useState(true);
   const queryParams = new URLSearchParams();
   useEffect(() => {
-    axios.get('/users').then((res) => setUsers(res.data));
+    axios.get(`/users/friends/${user._id}`).then((res) => setUsers(res.data));
   }, []);
 
   useEffect(() => {
@@ -102,6 +101,7 @@ export default function Sidebar() {
         </ul>
         {/* <button className='sidebarButton'>Show More</button> */}
         <hr className='sidebarHr' />
+        <h3 className='sidebar__followings'>افرادی که دنبال کرده اید</h3>
         <ul className='sidebarFriendList'>
           {users?.map((u) => {
             const { username } = u;
