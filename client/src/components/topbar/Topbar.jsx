@@ -25,13 +25,16 @@ export default function Topbar() {
             <span className='logo'>خرید و فروش بهشتی</span>
           </Link>
           {matches && (
-            <IconButton onClick={() => {
-              AuthDispatch({ type: 'SIDEBAR' });
-            }}>
-
-              <MenuOutlined color='white'
-
-              />
+            <IconButton
+              onClick={() => {
+                if (window.location.search.pathname !== '/messenger') {
+                  AuthDispatch({ type: 'CONTACTS' });
+                } else {
+                  AuthDispatch({ type: 'SIDEBAR' });
+                }
+              }}
+            >
+              <MenuOutlined color='white' />
             </IconButton>
           )}
         </div>

@@ -1,8 +1,12 @@
 import './messenger.css';
 import Conversation from '../../components/conversations/Conversation';
 import Message from '../../components/message/Message';
-import ChatOnline from '../../components/chatOnline/ChatOnline';
+import { IconButton } from '@material-ui/core';
+import { CloseOutlined } from '@material-ui/icons';
+// import ChatOnline from '../../components/chatOnline/ChatOnline';
 import { useContext, useEffect, useRef, useState } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
 import axios from 'axios';
@@ -16,8 +20,10 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState('');
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const matches = useMediaQuery('(max-width:768px)');
+
   const socket = useRef();
-  const { user } = useContext(AuthContext);
+  const { user, contacts, dispatch } = useContext(AuthContext);
   const scrollRef = useRef();
 
   useEffect(() => {
@@ -32,11 +38,12 @@ export default function Messenger() {
   }, []);
 
   useEffect(() => {
-    const current = conversations.find(el => el._id === location?.state?.conversationId);
+    const current = conversations.find(
+      (el) => el._id === location?.state?.conversationId
+    );
     if (current) {
       setCurrentChat(current);
     }
-
   }, [location?.state?.conversationId, conversations]);
 
   useEffect(() => {
@@ -115,9 +122,19 @@ export default function Messenger() {
 
   return (
     <>
-      {/* <Topbar /> */}
       <div className='messenger'>
-        <div className='chatMenu'>
+        <div
+          className={`${matches && contacts ? 'chatMenu__mobile' : 'chatMenu'}`}
+        >
+          {matches && (
+            <IconButton
+              onClick={() => {
+                dispatch({ type: 'CONTACTS' });
+              }}
+            >
+              <CloseOutlined />
+            </IconButton>
+          )}
           <div className='chatMenuWrapper'>
             {conversations.map((c, index) => (
               <div
@@ -126,18 +143,23 @@ export default function Messenger() {
                   setCurrentChat(c);
                 }}
               >
-                <Conversation currentChat={currentChat} conversation={c} currentUser={user} />
+                <Conversation
+                  currentChat={currentChat}
+                  conversation={c}
+                  currentUser={user}
+                />
               </div>
             ))}
           </div>
         </div>
+
         <div className='chatBox'>
           <div className='chatBoxWrapper'>
             {currentChat ? (
               <>
                 <div className='chatBoxTop'>
-                  {messages.map((m) => (
-                    <div ref={scrollRef}>
+                  {messages.map((m, index) => (
+                    <div key={index} ref={scrollRef}>
                       <Message message={m} own={m.sender === user._id} />
                     </div>
                   ))}
@@ -161,7 +183,7 @@ export default function Messenger() {
             )}
           </div>
         </div>
-        <div className='chatOnline'>
+        {/* <div className='chatOnline'>
           <div className='chatOnlineWrapper'>
             <ChatOnline
               onlineUsers={onlineUsers}
@@ -169,7 +191,7 @@ export default function Messenger() {
               setCurrentChat={setCurrentChat}
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -37,10 +37,14 @@ const AuthReducer = (state, action) => {
         },
       };
     case 'SIDEBAR':
-      console.log('asd');
       return {
         ...state,
         sidebar: !state.sidebar,
+      };
+    case 'CONTACTS':
+      return {
+        ...state,
+        contacts: !state.contacts,
       };
 
     default:
