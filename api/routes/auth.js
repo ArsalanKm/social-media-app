@@ -1,4 +1,6 @@
 import express from 'express';
+import jwt from 'jsonwebtoken';
+import { generateAuthToken } from '../utils/jwt.js';
 
 const router = express.Router();
 import User from '../models/User.js';
@@ -28,18 +30,29 @@ router.post('/register', async (req, res) => {
 
 //LOGIN
 router.post('/login', async (req, res) => {
+  console.log('here');
   try {
     const user = await User.findOne({ email: req.body.email });
-    !user && res.status(404).json('user not found');
-
+    if (!user) {
+      res.status(404).json('user not found');
+      return;
+    }
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.password
     );
-    !validPassword && res.status(400).json('wrong password');
 
-    res.status(200).json(user);
+    if (!validPassword) {
+      console.log('400');
+      res.status(400).json('wrong password');
+      return;
+    }
+    const token = generateAuthToken({ id: user._id, name: user.name });
+
+    res.status(200).json({ data: { user, token: token } });
+    return;
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });

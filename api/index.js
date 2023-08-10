@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import multer from 'multer';
@@ -28,6 +29,7 @@ app.use('/images', express.static('public/images'));
 
 //middleware
 app.use(express.json());
+app.use(cors());
 app.use(helmet());
 app.use(morgan('common'));
 
