@@ -1,7 +1,7 @@
 import './post.css';
+import instance from '../../http';
 import { useContext, useEffect, useState } from 'react';
 import { Chip, Button } from '@mui/material';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { format } from 'timeago.js';
 import { Link } from 'react-router-dom';
@@ -21,7 +21,7 @@ export default function Post({ post, fetchPosts }) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`);
+      const res = await instance.get(`/users?userId=${post.userId}`);
       setUser(res.data);
     };
     fetchUser();
@@ -29,14 +29,14 @@ export default function Post({ post, fetchPosts }) {
 
   const likeHandler = () => {
     try {
-      axios.put('/posts/' + post._id + '/like', { userId: currentUser._id });
+      instance.put('/posts/' + post._id + '/like', { userId: currentUser._id });
     } catch (err) { }
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
 
   const onDelete = (id) => {
-    axios
+    instance
       .post(`/posts/${id}`, { userId: currentUser._id })
       .then((res) => fetchPosts());
   };
@@ -84,11 +84,11 @@ export default function Post({ post, fetchPosts }) {
             {post.userId !== currentUser._id && (
               <Button
                 onClick={async () => {
-                  let res = await axios.get(
+                  let res = await instance.get(
                     `/conversations/find/${currentUser._id}/${user._id}`
                   );
                   if (!res.data) {
-                    res = await axios.post(`/conversations`, {
+                    res = await instance.post(`/conversations`, {
                       senderId: currentUser._id,
                       receiverId: post.userId,
                     });

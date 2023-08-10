@@ -2,17 +2,16 @@ import './rightbar.css';
 import { Users } from '../../dummyData';
 import Online from '../online/Online';
 import { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { Add, Remove } from '@material-ui/icons';
+import instance from '../../http';
 
 export default function Rightbar({ user }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const [followed, setFollowed] = useState(false);
-
   useEffect(() => {
     if (currentUser.followings.includes(user?._id)) {
       setFollowed(true);
@@ -20,14 +19,14 @@ export default function Rightbar({ user }) {
   }, [currentUser.followings, user?._id]);
 
   // useEffect(() => {
-  //   axios.get('/users').then((res) => console.log(res));
+  //   instance.get('/users').then((res) => console.log(res));
   // }, []);
 
   useEffect(() => {
     const getFriends = async () => {
       try {
         if (user?._id) {
-          const friendList = await axios.get('/users/friends/' + user?._id);
+          const friendList = await instance.get('/users/friends/' + user?._id);
           if (friendList) {
             setFriends(friendList.data);
           }
@@ -42,12 +41,12 @@ export default function Rightbar({ user }) {
   const handleClick = async () => {
     try {
       if (followed) {
-        await axios.put(`/users/${user._id}/unfollow`, {
+        await instance.put(`/users/${user._id}/unfollow`, {
           userId: currentUser._id,
         });
         dispatch({ type: 'UNFOLLOW', payload: user._id });
       } else {
-        await axios.put(`/users/${user._id}/follow`, {
+        await instance.put(`/users/${user._id}/follow`, {
           userId: currentUser._id,
         });
         dispatch({ type: 'FOLLOW', payload: user._id });

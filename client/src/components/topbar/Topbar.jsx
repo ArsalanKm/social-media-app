@@ -86,6 +86,8 @@ export default function Topbar() {
               onClick={() => {
                 AuthDispatch({ type: 'LOGOUT' });
                 localStorage.removeItem('user');
+                localStorage.removeItem('token');
+
                 window.location.reload('/');
               }}
               variant='outlined'
@@ -93,23 +95,25 @@ export default function Topbar() {
             >
               خروج
             </Button>
-            <Link
-              style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
-              to={`/profile/${user.username}`}
-            >
-              <>
-                <span>{user?.username}</span>
-                <img
-                  src={
-                    user.profilePicture
-                      ? PF + user.profilePicture
-                      : PF + 'person/noAvatar.png'
-                  }
-                  alt=''
-                  className='topbarImg'
-                />
-              </>
-            </Link>
+            {user && (
+              <Link
+                style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+                to={`/profile/${user.username}`}
+              >
+                <>
+                  <span>{user?.username}</span>
+                  <img
+                    src={
+                      user?.profilePicture
+                        ? PF + user?.profilePicture
+                        : PF + 'person/noAvatar.png'
+                    }
+                    alt=''
+                    className='topbarImg'
+                  />
+                </>
+              </Link>
+            )}
           </div>
         )}
         {/* </div> */}

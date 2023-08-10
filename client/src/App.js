@@ -17,11 +17,11 @@ import './app.css';
 
 function App() {
   const { user } = useContext(AuthContext);
+
   return (
     <Router>
       <Topbar />
       <div className='my-app'>
-
         <Sidebar />
 
         <Switch>
@@ -36,7 +36,7 @@ function App() {
             {!user ? <Redirect to='/' /> : <Messenger />}
           </Route>
           <Route path='/profile/:username'>
-            <Profile />
+            {!user ? <Redirect to='/' /> : <Profile />}
           </Route>
         </Switch>
       </div>

@@ -10,8 +10,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
-import axios from 'axios';
 import { io } from 'socket.io-client';
+import instance from '../../http';
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -20,7 +20,7 @@ export default function Messenger() {
   const location = useLocation();
   const [newMessage, setNewMessage] = useState('');
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState([]);
+  // const [onlineUsers, setOnlineUsers] = useState([]);
   const matches = useMediaQuery('(max-width:768px)');
 
   const socket = useRef();
@@ -55,18 +55,18 @@ export default function Messenger() {
 
   useEffect(() => {
     socket.current.emit('addUser', user._id);
-    socket.current.on('getUsers', (users) => {
-      setOnlineUsers(
-        user.followings.filter((f) => users.some((u) => u.userId === f))
-      );
-    });
+    // socket.current.on('getUsers', (users) => {
+    //   setOnlineUsers(
+    //     user.followings.filter((f) => users.some((u) => u.userId === f))
+    //   );
+    // });
   }, [user]);
 
   useEffect(
     () => {
       const getConversations = async () => {
         try {
-          const res = await axios.get('/conversations/' + user._id);
+          const res = await instance.get('/conversations/' + user._id);
           setConversations(res.data);
         } catch (err) {
           console.log(err);
@@ -81,7 +81,7 @@ export default function Messenger() {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get('/messages/' + currentChat?._id);
+        const res = await instance.get('/messages/' + currentChat?._id);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -109,7 +109,7 @@ export default function Messenger() {
     });
 
     try {
-      const res = await axios.post('/messages', message);
+      const res = await instance.post('/messages', message);
       setMessages([...messages, res.data]);
       setNewMessage('');
     } catch (err) {

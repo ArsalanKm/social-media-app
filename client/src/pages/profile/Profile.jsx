@@ -2,9 +2,9 @@ import './profile.css';
 import Feed from '../../components/feed/Feed';
 import Rightbar from '../../components/rightbar/Rightbar';
 import { useEffect, useState, useCallback, useContext } from 'react';
-import axios from 'axios';
 import { SearchContext } from '../../context/search/SearchContext';
 import { useParams } from 'react-router';
+import instance from '../../http';
 
 export default function Profile() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -15,7 +15,7 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/users?username=${username}`);
+      const res = await instance.get(`/users?username=${username}`);
       setUser(res.data);
     };
     fetchUser();
@@ -23,12 +23,12 @@ export default function Profile() {
   const fetchPosts = useCallback(
     async (tag, search) => {
       const res = username
-        ? await axios.get(
+        ? await instance.get(
           '/posts/profile/' +
           username +
           `?tag=${decodeURIComponent(tag)}&s=${decodeURI(search)}`
         )
-        : await axios.get(
+        : await instance.get(
           'posts/timeline/' +
           user._id +
           `?tag=${decodeURIComponent(tag)}&s=${decodeURI(search)}`
@@ -43,11 +43,10 @@ export default function Profile() {
   );
 
   useEffect(() => {
-    console.log(search);
     // if (makeSearch) {
     fetchPosts(tag, search);
     // }
-  }, [makeSearch, tag]);
+  }, [makeSearch, tag, fetchPosts, search]);
 
   useEffect(() => {
     fetchPosts();

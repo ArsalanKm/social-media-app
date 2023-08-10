@@ -7,7 +7,6 @@ import {
   School,
   CloseOutlined,
 } from '@material-ui/icons';
-import axios from 'axios';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
 import CloseFriend from '../closeFriend/CloseFriend';
@@ -16,6 +15,7 @@ import { useContext } from 'react';
 import { SearchContext } from '../../context/search/SearchContext';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { IconButton } from '@material-ui/core';
+import instance from '../../http';
 
 const iconData = [
   {
@@ -54,11 +54,11 @@ export default function Sidebar() {
   const queryParams = new URLSearchParams();
   useEffect(() => {
     if (user?._id)
-      axios.get(`users/friends/${user._id}`).then((res) => setUsers(res.data));
+      instance.get(`users/friends/${user._id}`).then((res) => setUsers(res.data));
   }, [user]);
 
   useEffect(() => {
-    axios.get('/tags').then((res) => {
+    instance.get('/tags').then((res) => {
       setTags(res.data);
     });
   }, []);

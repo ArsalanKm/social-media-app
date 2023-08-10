@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import instance from "../../http";
 import "./conversation.css";
 
 export default function Conversation({ conversation, currentUser, currentChat }) {
@@ -11,7 +11,7 @@ export default function Conversation({ conversation, currentUser, currentChat })
 
     const getUser = async () => {
       try {
-        const res = await axios("/users?userId=" + friendId);
+        const res = await instance("/users?userId=" + friendId);
         setUser(res.data);
       } catch (err) {
         console.log(err);

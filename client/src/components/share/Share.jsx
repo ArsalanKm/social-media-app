@@ -3,7 +3,7 @@ import { PermMedia, Label, Cancel } from '@material-ui/icons';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../context/auth/AuthContext';
 import TagMultiSelect from '../../components/tagMultiSelect';
-import axios from 'axios';
+import instance from '../../http';
 
 export default function Share() {
   const { user } = useContext(AuthContext);
@@ -14,7 +14,7 @@ export default function Share() {
   const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
-    axios.get('/tags').then((res) => setTags(res.data));
+    instance.get('/tags').then((res) => setTags(res.data));
   }, []);
 
   const submitHandler = async (e) => {
@@ -31,11 +31,11 @@ export default function Share() {
       data.append('file', file);
       newPost.img = fileName;
       try {
-        await axios.post('/upload', data);
+        await instance.post('/upload', data);
       } catch (err) { }
     }
     try {
-      await axios.post('/posts', newPost);
+      await instance.post('/posts', newPost);
       window.location.reload();
     } catch (err) { }
   };
@@ -49,6 +49,10 @@ export default function Share() {
     }
     setSelectedTags(items);
   };
+
+  if (user) {
+    return null;
+  }
   return (
     <div className='share'>
       <div className='shareWrapper'>
@@ -56,14 +60,14 @@ export default function Share() {
           <img
             className='shareProfileImg'
             src={
-              user.profilePicture
-                ? PF + user.profilePicture
+              user?.profilePicture
+                ? PF + user?.profilePicture
                 : PF + 'person/noAvatar.png'
             }
             alt=''
           />
           <input
-            placeholder={user.username + ' اگهی های خود را اشتراک بذارید '}
+            placeholder={user?.username + ' اگهی های خود را اشتراک بذارید '}
             className='shareInput'
             ref={desc}
           />

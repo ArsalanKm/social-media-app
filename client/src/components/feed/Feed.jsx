@@ -6,7 +6,9 @@ import { AuthContext } from '../../context/auth/AuthContext';
 
 export default function Feed({ username, posts, fetchPosts }) {
   const { user } = useContext(AuthContext);
-
+  if (!user) {
+    return null;
+  }
   return (
     <div className='feed'>
       {(!username || username === user.username) && <Share />}

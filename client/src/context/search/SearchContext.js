@@ -17,7 +17,7 @@ export const SearchContextProvider = ({ children }) => {
   useEffect(() => {
     dispatch({ type: 'SET_TAG', payload: searchedTag });
     dispatch({ type: 'SET_SEARCH', payload: searchedText });
-  }, [searchedTag, searchedText, window.location.search]);
+  }, [searchedTag, searchedText]);
 
   return (
     <SearchContext.Provider

@@ -1,6 +1,6 @@
 import Feed from '../../components/feed/Feed';
 
-import axios from 'axios';
+import axiosInstance from '../../http';
 import './home.css';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { SearchContext } from '../../context/search/SearchContext';
@@ -17,10 +17,9 @@ export default function Home() {
   const location = useLocation();
   const [posts, setPosts] = useState([]);
 
-
   const fetchPosts = useCallback(
     async (tag, searchedText) => {
-      const res = await axios.get(
+      const res = await axiosInstance.get(
         `posts/timeline/` +
         user._id +
         `?tag=${decodeURIComponent(tag)}&s=${decodeURI(searchedText)}`
@@ -31,31 +30,35 @@ export default function Home() {
         })
       );
     },
-    []
+    [user]
   );
 
   useEffect(() => {
     dispatch({ type: 'SET_TAG', payload: searchedTag });
     dispatch({ type: 'SET_SEARCH', payload: searchedText });
-  }, [searchedTag, searchedText]);
+  }, [searchedTag, searchedText, dispatch]);
 
   useEffect(() => {
     // if (makeSearch) {
-    fetchPosts(tag, search);
+    if (user) {
+      fetchPosts(tag, search);
+    }
     // }
-  }, [makeSearch, tag, location]);
+  }, [makeSearch, tag, location, fetchPosts, user, search]);
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    if (user) {
+      fetchPosts();
+    }
+  }, [user, fetchPosts]);
 
+  if (!user) {
+    return null;
+  }
   return (
     <>
       <div className='homeContainer'>
-        <Feed
-          posts={posts}
-          fetchPosts={fetchPosts}
-        />
+        <Feed posts={posts} fetchPosts={fetchPosts} />
         {/* <Rightbar /> */}
       </div>
     </>
