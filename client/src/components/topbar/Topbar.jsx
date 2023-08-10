@@ -21,9 +21,9 @@ export default function Topbar() {
   );
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const history = useHistory();
-  // if (location.pathname === '/messenger') {
-  //   return null;
-  // }
+  if (!user && matches) {
+    return null;
+  }
   return (
     <div className='topbarContainer'>
       <div className='topbarContent'>

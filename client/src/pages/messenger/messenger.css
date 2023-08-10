@@ -1,9 +1,12 @@
 .messenger {
-  height: calc(100vh - 70px);
+  height: calc(100vh - 145px);
   display: flex;
   width: 100%;
   margin: 0 auto;
   direction: ltr;
+}
+.chat {
+  width: 100%;
 }
 
 .chatMenu {
@@ -34,7 +37,7 @@
 }
 
 .chatBox {
-  flex: 5.5;
+  height: 90%;
 }
 
 .chatBoxWrapper {

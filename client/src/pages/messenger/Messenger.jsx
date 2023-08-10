@@ -1,7 +1,8 @@
 import './messenger.css';
 import Conversation from '../../components/conversations/Conversation';
 import Message from '../../components/message/Message';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Button } from '@mui/material';
+
 import { CloseOutlined } from '@material-ui/icons';
 // import ChatOnline from '../../components/chatOnline/ChatOnline';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -152,40 +153,51 @@ export default function Messenger() {
             ))}
           </div>
         </div>
-
-        <div className='chatBox'>
-          <div className='chatBoxWrapper'>
-            {currentChat ? (
-              <>
-                <div className='chatBoxTop'>
-                  {messages.map((m, index) => (
-                    <div key={index} ref={scrollRef}>
-                      <Message message={m} own={m.sender === user._id} />
-                    </div>
-                  ))}
-                </div>
-                <div className='chatBoxBottom'>
-                  <textarea
-                    className='chatMessageInput'
-                    placeholder=' ...پیام خود را بنویسید'
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    value={newMessage}
-                  ></textarea>
-                  <button className='chatSubmitButton' onClick={handleSubmit}>
-                    ارسال
-                  </button>
-                </div>
-              </>
-            ) : (
-              <span className='noConversationText'>
-                Open a conversation to start a chat.
-              </span>
-            )}
+        <div className='chat'>
+          {matches && (
+            <Button
+              onClick={() => {
+                dispatch({ type: 'CONTACTS' });
+              }}
+              color='info'
+            >
+              لیست مخاطبان
+            </Button>
+          )}
+          <div className='chatBox'>
+            <div className='chatBoxWrapper'>
+              {currentChat ? (
+                <>
+                  <div className='chatBoxTop'>
+                    {messages.map((m, index) => (
+                      <div key={index} ref={scrollRef}>
+                        <Message message={m} own={m.sender === user._id} />
+                      </div>
+                    ))}
+                  </div>
+                  <div className='chatBoxBottom'>
+                    <textarea
+                      className='chatMessageInput'
+                      placeholder=' ...پیام خود را بنویسید'
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      value={newMessage}
+                    ></textarea>
+                    <button className='chatSubmitButton' onClick={handleSubmit}>
+                      ارسال
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <span className='noConversationText'>
+                  Open a conversation to start a chat.
+                </span>
+              )}
+            </div>
           </div>
         </div>
         {/* <div className='chatOnline'>
           <div className='chatOnlineWrapper'>
-            <ChatOnline
+          <ChatOnline
               onlineUsers={onlineUsers}
               currentId={user._id}
               setCurrentChat={setCurrentChat}
