@@ -9,6 +9,7 @@
 .chatMenu {
   display: block;
   width: 390px;
+  height: 1px solid #eee;
 }
 .chatMenu__mobile {
   display: none;

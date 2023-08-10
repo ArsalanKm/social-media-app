@@ -1,6 +1,7 @@
 .topbarContainer {
   height: 50px;
   width: 100%;
+  padding: 12px;
   background-color: #1877f2;
   top: 0;
   position: sticky;
@@ -111,8 +112,18 @@
   justify-content: space-between;
   height: 25px;
 }
+.user-header {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  flex-direction: row-reverse;
+  height: 30px;
+}
 
 @media screen and (max-width: 768px) {
+  .user-header {
+    justify-content: space-between;
+  }
   .topbarLink {
     display: none;
   }
@@ -123,7 +134,7 @@
     flex-direction: column;
   }
   .topbarContainer {
-    height: 115px;
+    height: 145px;
     padding: 8px;
   }
 }

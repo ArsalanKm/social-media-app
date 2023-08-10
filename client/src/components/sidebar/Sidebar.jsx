@@ -4,7 +4,6 @@ import {
   HomeOutlined,
   DevicesOutlined,
   WorkOutline,
-  Event,
   School,
   CloseOutlined,
 } from '@material-ui/icons';
@@ -18,6 +17,28 @@ import { SearchContext } from '../../context/search/SearchContext';
 import { AuthContext } from '../../context/auth/AuthContext';
 import { IconButton } from '@material-ui/core';
 
+const iconData = [
+  {
+    name: 'خانه',
+    icon: <HomeOutlined className='sidebarIcon' />,
+  },
+  {
+    name: 'ماشین',
+    icon: <DirectionsCarOutlined className='sidebarIcon' />,
+  },
+  {
+    name: 'کالای دیجیتال',
+    icon: <DevicesOutlined className='sidebarIcon' />,
+  },
+  {
+    name: 'کتاب',
+    icon: <School className='sidebarIcon' />,
+  },
+  {
+    name: 'موقعیت شغلی',
+    icon: <WorkOutline className='sidebarIcon' />,
+  },
+];
 export default function Sidebar() {
   const [users, setUsers] = useState([]);
   const location = useLocation();
@@ -26,26 +47,39 @@ export default function Sidebar() {
 
   const matches = useMediaQuery('(max-width:768px)');
 
-  const { dispatch } = useContext(SearchContext);
+  const [tags, setTags] = useState([]);
+
+  const { dispatch, tag: searchedTag } = useContext(SearchContext);
   const [show, setShow] = useState(true);
   const queryParams = new URLSearchParams();
   useEffect(() => {
-    axios.get(`/users/friends/${user._id}`).then((res) => setUsers(res.data));
+    if (user?._id)
+      axios.get(`users/friends/${user._id}`).then((res) => setUsers(res.data));
+  }, [user]);
+
+  useEffect(() => {
+    axios.get('/tags').then((res) => {
+      setTags(res.data);
+    });
   }, []);
 
   useEffect(() => {
     const paths = ['/messenger', '/login', '/register'];
-    if (paths.includes(location.pathname)) {
+    if (paths.includes(location.pathname) || !user) {
       setShow(false);
     } else setShow(true);
-  }, [location.pathname]);
+  }, [location.pathname, user]);
   const onClick = (title) => {
-    queryParams.append('tag', title);
+    let tag = title;
+    if (title === searchedTag) {
+      tag = '';
+    }
+    queryParams.append('tag', tag);
     history.push({
       pathname: window.location.href.pathname,
       search: `?${queryParams.toString()}`,
     });
-    dispatch({ type: 'SET_TAG', payload: title });
+    dispatch({ type: 'SET_TAG', payload: tag });
   };
 
   if (!show) {
@@ -55,8 +89,8 @@ export default function Sidebar() {
   return (
     <div className={`sidebar${sidebar ? '__mobile' : ''}`}>
       <div className='sidebarWrapper'>
-        <div className='closeIcon'>
-          {matches && (
+        {matches && (
+          <div className='closeIcon'>
             <IconButton
               onClick={() => {
                 AuthDispatch({ type: 'SIDEBAR' });
@@ -64,40 +98,20 @@ export default function Sidebar() {
             >
               <CloseOutlined />
             </IconButton>
-          )}
-        </div>
+          </div>
+        )}
         <ul className='sidebarList'>
-          <li onClick={() => onClick('jobs')} className='sidebarListItem'>
-            <DirectionsCarOutlined className='sidebarIcon' />
-            <span className='sidebarListItemText'>Feed</span>
-          </li>
-          <li
-            onClick={() => onClick('کالای دیجیتال')}
-            className='sidebarListItem'
-          >
-            <HomeOutlined className='sidebarIcon' />
-            <span className='sidebarListItemText'>Chats</span>
-          </li>
-          <li onClick={() => onClick('jobs')} className='sidebarListItem'>
-            <DevicesOutlined className='sidebarIcon' />
-            <span className='sidebarListItemText'>Videos</span>
-          </li>
-
-          <li
-            onClick={() => onClick('کالای دیجیتال')}
-            className='sidebarListItem'
-          >
-            <WorkOutline className='sidebarIcon' />
-            <span className='sidebarListItemText'>Jobs</span>
-          </li>
-          <li onClick={() => onClick('jobs')} className='sidebarListItem'>
-            <Event className='sidebarIcon' />
-            <span className='sidebarListItemText'>Events</span>
-          </li>
-          <li onClick={() => onClick('jobs')} className='sidebarListItem'>
-            <School className='sidebarIcon' />
-            <span className='sidebarListItemText'>Courses</span>
-          </li>
+          {tags?.map((tag) => (
+            <li
+              key={tag.name}
+              onClick={() => onClick(tag.name)}
+              className={`sidebarListItem ${searchedTag === tag.name ? 'sidebarListItem--selected' : ''
+                }`}
+            >
+              {iconData.find((el) => el.name === tag.name)?.icon}
+              <span className='sidebarListItemText'>{tag.name}</span>
+            </li>
+          ))}
         </ul>
         {/* <button className='sidebarButton'>Show More</button> */}
         <hr className='sidebarHr' />

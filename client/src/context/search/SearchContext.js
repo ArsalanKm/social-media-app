@@ -1,6 +1,4 @@
-import axios from 'axios';
 import { createContext, useEffect, useReducer } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import SearchReducer from './SearchReducer';
 

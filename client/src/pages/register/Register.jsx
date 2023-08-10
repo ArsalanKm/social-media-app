@@ -1,7 +1,8 @@
-import axios from "axios";
-import { useRef } from "react";
-import "./register.css";
-import { useHistory } from "react-router";
+import axios from 'axios';
+import { useRef } from 'react';
+import './register.css';
+import { useHistory } from 'react-router';
+import AuthInfo from '../../components/authIntro';
 
 export default function Register() {
   const username = useRef();
@@ -21,8 +22,8 @@ export default function Register() {
         password: password.current.value,
       };
       try {
-        await axios.post("/auth/register", user);
-        history.push("/login");
+        await axios.post('/auth/register', user);
+        history.push('/login');
       } catch (err) {
         console.log(err);
       }
@@ -30,51 +31,48 @@ export default function Register() {
   };
 
   return (
-    <div className="login">
-      <div className="loginWrapper">
-        <div className="loginLeft">
-          <h3 className="loginLogo">خرید و فروش بهشتی</h3>
-          <span className="loginDesc">
-            در این سامانه با هم دانشگاهی های خود خرید و فروش کنید
-          </span>
-        </div>
-        <div className="loginRight">
-          <form className="loginBox" onSubmit={handleClick}>
-            <input
-              placeholder="Username"
-              required
-              ref={username}
-              className="loginInput"
-            />
-            <input
-              placeholder="Email"
-              required
-              ref={email}
-              className="loginInput"
-              type="email"
-            />
-            <input
-              placeholder="Password"
-              required
-              ref={password}
-              className="loginInput"
-              type="password"
-              minLength="6"
-            />
-            <input
-              placeholder="Password Again"
-              required
-              ref={passwordAgain}
-              className="loginInput"
-              type="password"
-            />
-            <button className="loginButton" type="submit">
-              Sign Up
-            </button>
-            <button className="loginRegisterButton">Log into Account</button>
-          </form>
-        </div>
-      </div>
-    </div>
+    <AuthInfo>
+      <form className='loginBox' onSubmit={handleClick}>
+        <input
+          placeholder='نام'
+          required
+          ref={username}
+          className='loginInput'
+        />
+        <input
+          placeholder='ایمیل'
+          required
+          ref={email}
+          className='loginInput'
+          type='email'
+        />
+        <input
+          placeholder='رمزعبور'
+          required
+          ref={password}
+          className='loginInput'
+          type='password'
+          minLength='6'
+        />
+        <input
+          placeholder='تکرار رمز عبور'
+          required
+          ref={passwordAgain}
+          className='loginInput'
+          type='password'
+        />
+        <button className='loginButton' type='submit'>
+          ساخت اکانت
+        </button>
+        <button
+          onClick={() => {
+            history.push('/login');
+          }}
+          className='loginRegisterButton'
+        >
+          وارد شدن
+        </button>
+      </form>
+    </AuthInfo>
   );
 }
