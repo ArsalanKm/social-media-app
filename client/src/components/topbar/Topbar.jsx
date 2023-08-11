@@ -87,8 +87,6 @@ export default function Topbar() {
                 AuthDispatch({ type: 'LOGOUT' });
                 localStorage.removeItem('user');
                 localStorage.removeItem('token');
-
-                window.location.reload('/');
               }}
               variant='outlined'
               color='error'

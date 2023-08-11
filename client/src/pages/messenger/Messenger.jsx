@@ -4,7 +4,6 @@ import Message from '../../components/message/Message';
 import { IconButton, Button } from '@mui/material';
 
 import { CloseOutlined } from '@material-ui/icons';
-// import ChatOnline from '../../components/chatOnline/ChatOnline';
 import { useContext, useEffect, useRef, useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -20,7 +19,7 @@ export default function Messenger() {
   const location = useLocation();
   const [newMessage, setNewMessage] = useState('');
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  // const [onlineUsers, setOnlineUsers] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const matches = useMediaQuery('(max-width:768px)');
 
   const socket = useRef();
@@ -55,11 +54,12 @@ export default function Messenger() {
 
   useEffect(() => {
     socket.current.emit('addUser', user._id);
-    // socket.current.on('getUsers', (users) => {
-    //   setOnlineUsers(
-    //     user.followings.filter((f) => users.some((u) => u.userId === f))
-    //   );
-    // });
+    socket.current.on('getUsers', (users) => {
+      setOnlineUsers(
+        users.filter(el => el.userId !== user._id)
+        // user.followings.filter((f) => users.some((u) => u.userId === f))
+      );
+    });
   }, [user]);
 
   useEffect(
@@ -148,6 +148,7 @@ export default function Messenger() {
                   currentChat={currentChat}
                   conversation={c}
                   currentUser={user}
+                  online={onlineUsers.find(el => c.members.includes(el.userId))}
                 />
               </div>
             ))}

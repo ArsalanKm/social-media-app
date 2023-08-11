@@ -14,16 +14,30 @@ import { AuthContext } from './context/auth/AuthContext';
 import Messenger from './pages/messenger/Messenger';
 import Sidebar from './components/sidebar/Sidebar';
 import './app.css';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import React from 'react';
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+});
 function App() {
-  const { user } = useContext(AuthContext);
-
+  const { user, snackbar, dispatch } = useContext(AuthContext);
   return (
     <Router>
       <Topbar />
       <div className='my-app'>
         <Sidebar />
-
+        <Snackbar
+          style={{ width: '400px' }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          vertical='bottom'
+          open={snackbar}
+          autoHideDuration={2000}
+          onClose={() => dispatch({ type: 'SNACKBAR' })}
+        >
+          <Alert severity='error'>اکانت نا معتبر</Alert>
+        </Snackbar>
         <Switch>
           <Route exact path='/'>
             {user ? <Home /> : <Register />}

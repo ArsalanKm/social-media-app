@@ -54,14 +54,17 @@ export default function Sidebar() {
   const queryParams = new URLSearchParams();
   useEffect(() => {
     if (user?._id)
-      instance.get(`users/friends/${user._id}`).then((res) => setUsers(res.data));
+      instance
+        .get(`users/friends/${user._id}`)
+        .then((res) => setUsers(res.data));
   }, [user]);
 
   useEffect(() => {
-    instance.get('/tags').then((res) => {
-      setTags(res.data);
-    });
-  }, []);
+    if (user?._id)
+      instance.get('/tags').then((res) => {
+        setTags(res.data);
+      });
+  }, [user]);
 
   useEffect(() => {
     const paths = ['/messenger', '/login', '/register'];

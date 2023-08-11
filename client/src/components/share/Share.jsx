@@ -14,8 +14,8 @@ export default function Share() {
   const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
-    instance.get('/tags').then((res) => setTags(res.data));
-  }, []);
+    if (user?._id) instance.get('/tags').then((res) => setTags(res.data));
+  }, [user]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -50,9 +50,6 @@ export default function Share() {
     setSelectedTags(items);
   };
 
-  if (user) {
-    return null;
-  }
   return (
     <div className='share'>
       <div className='shareWrapper'>

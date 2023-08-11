@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   error: false,
   sidebar: false,
   contacts: false,
-  token: JSON.parse(localStorage.getItem('token')),
+  token: localStorage.getItem('token'),
+  snackbar: false,
 };
 
 export const AuthContext = createContext(INITIAL_STATE);
@@ -17,17 +18,21 @@ export const AuthContext = createContext(INITIAL_STATE);
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
   useEffect(() => {
-    const token = INITIAL_STATE.token;
-
-    if (token) {
+    const token = JSON.parse(localStorage.getItem('token') || null);
+    if (token && token !== null && token.length > 20) {
       instance.get(`users/userInfo`).then((res) => {
-        dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.data });
+        if (res?.data?.data) {
+          localStorage.setItem('user', JSON.stringify(res?.data?.data));
+          dispatch({ type: 'LOGIN_SUCCESS', payload: res?.data?.data });
+        }
       });
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(state.user));
+    if (state.user) {
+      localStorage.setItem('user', JSON.stringify(state.user));
+    }
   }, [state.user]);
 
   // useEffect(() => {
@@ -46,9 +51,12 @@ export const AuthContextProvider = ({ children }) => {
         dispatch,
         sidebar: state.sidebar,
         contacts: state.contacts,
+        snackbar: state.snackbar,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const AuthContextDispatch = () => {};

@@ -1,17 +1,12 @@
-import { useContext } from 'react';
 import Post from '../post/Post';
 import Share from '../share/Share';
 import './feed.css';
-import { AuthContext } from '../../context/auth/AuthContext';
 
-export default function Feed({ username, posts, fetchPosts }) {
-  const { user } = useContext(AuthContext);
-  if (!user) {
-    return null;
-  }
+export default function Feed({ posts, fetchPosts }) {
+
   return (
     <div className='feed'>
-      {(!username || username === user.username) && <Share />}
+      <Share />
       {posts.map((p) => (
         <Post fetchPosts={fetchPosts} key={p._id} post={p} />
       ))}

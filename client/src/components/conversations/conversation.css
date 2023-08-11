@@ -1,4 +1,5 @@
 .conversation {
+  position: relative;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -7,6 +8,15 @@
   border: 1px solid #eee;
 }
 
+.chatOnlineBadge {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: limegreen;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
 .conversation__selected {
   background-color: rgb(245, 243, 243);
 }

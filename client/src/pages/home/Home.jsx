@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export default function Home() {
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
   const { tag, search, makeSearch, dispatch } = useContext(SearchContext);
   const searchParams = new URLSearchParams(window.location.search);
   const searchedTag = searchParams.get('tag');
@@ -19,18 +19,20 @@ export default function Home() {
 
   const fetchPosts = useCallback(
     async (tag, searchedText) => {
-      const res = await axiosInstance.get(
-        `posts/timeline/` +
-        user._id +
-        `?tag=${decodeURIComponent(tag)}&s=${decodeURI(searchedText)}`
-      );
-      setPosts(
-        res.data.sort((p1, p2) => {
-          return new Date(p2.createdAt) - new Date(p1.createdAt);
-        })
-      );
+      if (user?._id && token && JSON.parse(localStorage.getItem('token'))) {
+        const res = await axiosInstance.get(
+          `posts/timeline/` +
+          user._id +
+          `?tag=${decodeURIComponent(tag)}&s=${decodeURI(searchedText)}`
+        );
+        setPosts(
+          res?.data?.sort((p1, p2) => {
+            return new Date(p2.createdAt) - new Date(p1.createdAt);
+          })
+        );
+      }
     },
-    [user]
+    [user, token]
   );
 
   useEffect(() => {
@@ -39,18 +41,8 @@ export default function Home() {
   }, [searchedTag, searchedText, dispatch]);
 
   useEffect(() => {
-    // if (makeSearch) {
-    if (user) {
-      fetchPosts(tag, search);
-    }
-    // }
-  }, [makeSearch, tag, location, fetchPosts, user, search]);
-
-  useEffect(() => {
-    if (user) {
-      fetchPosts();
-    }
-  }, [user, fetchPosts]);
+    fetchPosts(tag, search);
+  }, [makeSearch, tag, location, fetchPosts, search]);
 
   if (!user) {
     return null;

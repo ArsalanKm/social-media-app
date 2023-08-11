@@ -18,9 +18,6 @@ export default function Rightbar({ user }) {
     }
   }, [currentUser.followings, user?._id]);
 
-  // useEffect(() => {
-  //   instance.get('/users').then((res) => console.log(res));
-  // }, []);
 
   useEffect(() => {
     const getFriends = async () => {

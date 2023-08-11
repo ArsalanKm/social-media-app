@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react";
-import instance from "../../http";
-import "./conversation.css";
+import { useEffect, useState } from 'react';
+import instance from '../../http';
+import './conversation.css';
 
-export default function Conversation({ conversation, currentUser, currentChat }) {
+export default function Conversation({
+  online,
+  conversation,
+  currentUser,
+  currentChat,
+}) {
   const [user, setUser] = useState(null);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
@@ -11,7 +16,7 @@ export default function Conversation({ conversation, currentUser, currentChat })
 
     const getUser = async () => {
       try {
-        const res = await instance("/users?userId=" + friendId);
+        const res = await instance('/users?userId=' + friendId);
         setUser(res.data);
       } catch (err) {
         console.log(err);
@@ -20,17 +25,21 @@ export default function Conversation({ conversation, currentUser, currentChat })
     getUser();
   }, [currentUser, conversation]);
   return (
-    <div className={`conversation conversation${currentChat?._id === conversation?._id ? "__selected" : ""}`}>
+    <div
+      className={`conversation conversation${currentChat?._id === conversation?._id ? '__selected' : ''
+        }`}
+    >
       <img
-        className="conversationImg"
+        className='conversationImg'
         src={
           user?.profilePicture
             ? PF + user.profilePicture
-            : PF + "person/noAvatar.png"
+            : PF + 'person/noAvatar.png'
         }
-        alt=""
+        alt=''
       />
-      <span className="conversationName">{user?.username}</span>
+      {online && <div className='chatOnlineBadge'></div>}
+      <span className='conversationName'>{user?.username}</span>
     </div>
   );
 }

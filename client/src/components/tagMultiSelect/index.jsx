@@ -34,9 +34,7 @@ export default function TagMultiSelect({ tags, onclick }) {
       const {
          target: { value },
       } = event;
-      setPersonName(
-         typeof value === 'string' ? value.split(',') : value
-      );
+      setPersonName(typeof value === 'string' ? value.split(',') : value);
    };
 
    return (
@@ -51,6 +49,7 @@ export default function TagMultiSelect({ tags, onclick }) {
                onChange={handleChange}
                input={<OutlinedInput label='تگ' />}
                MenuProps={MenuProps}
+
             >
                {tags.map((el) => (
                   <MenuItem
