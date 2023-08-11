@@ -2,12 +2,13 @@ import express from 'express';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
 import Tag from '../models/Tags.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
 //create a post
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   const newPost = new Post(req.body);
   try {
     const savedPost = await newPost.save();
@@ -18,7 +19,7 @@ router.post('/', async (req, res) => {
 });
 //update a post
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.userId === req.body.userId) {
@@ -33,7 +34,7 @@ router.put('/:id', async (req, res) => {
 });
 //delete a post
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', authMiddleware, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.userId === req.body.userId) {
@@ -48,7 +49,7 @@ router.post('/:id', async (req, res) => {
 });
 //like / dislike a post
 
-router.put('/:id/like', async (req, res) => {
+router.put('/:id/like', authMiddleware, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post.likes.includes(req.body.userId)) {
@@ -75,7 +76,7 @@ router.get('/:id', async (req, res) => {
 
 //get timeline posts
 
-router.get('/timeline/:userId', async (req, res) => {
+router.get('/timeline/:userId', authMiddleware, async (req, res) => {
   try {
     const currentUser = await User.findById(req.params.userId);
     const { tag, s } = req.query;
@@ -99,7 +100,7 @@ router.get('/timeline/:userId', async (req, res) => {
 
 //get user's all posts
 
-router.get('/profile/:username', async (req, res) => {
+router.get('/profile/:username', authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username });
     let posts = await Post.find({ userId: user._id }).populate('tags');
@@ -111,7 +112,6 @@ router.get('/profile/:username', async (req, res) => {
         post.tags.find((el) => el._id.toString() === validTag._id.toString())
       );
     }
-    console.log(s);
     if (s && s !== 'null' && s !== 'undefined') {
       posts = posts.filter((post) => post.desc.includes(s));
     }

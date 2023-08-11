@@ -6,7 +6,7 @@ import { authMiddleware } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 //update user
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
   if (req.body.userId === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
       try {
@@ -30,7 +30,7 @@ router.put('/:id', async (req, res) => {
 });
 
 //delete user
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
   if (req.body.userId === req.params.id || req.body.isAdmin) {
     try {
       await User.findByIdAndDelete(req.params.id);
@@ -50,7 +50,6 @@ router.get('/userInfo', authMiddleware, async (req, res) => {
       res.status(200).json({ data: { user } });
       return;
     } else {
-      console.log(req.body.currentUserId);
       res.status(401).json('not found');
     }
   } catch (err) {
@@ -59,14 +58,13 @@ router.get('/userInfo', authMiddleware, async (req, res) => {
   }
 });
 //get  users
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
   const userId = req.query.userId;
   const username = req.query.username;
   try {
     if (!userId && !username) {
       const users = await User.find({});
       res.status(200).json(users);
-      console.log(users);
       return;
     }
     const user = userId
@@ -80,10 +78,9 @@ router.get('/', async (req, res) => {
 });
 
 //get friends
-router.get('/friends/:userId', async (req, res) => {
+router.get('/friends/:userId', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
-    console.log(user);
     const friends = await Promise.all(
       user.followings.map((friendId) => {
         return User.findById(friendId);
@@ -94,7 +91,6 @@ router.get('/friends/:userId', async (req, res) => {
       const { _id, username, profilePicture } = friend;
       friendList.push({ _id, username, profilePicture });
     });
-    console.log(friendList);
     res.status(200).json(friendList);
   } catch (err) {
     res.status(500).json(err);
@@ -103,7 +99,7 @@ router.get('/friends/:userId', async (req, res) => {
 
 //follow a user
 
-router.put('/:id/follow', async (req, res) => {
+router.put('/:id/follow', authMiddleware, async (req, res) => {
   if (req.body.userId !== req.params.id) {
     try {
       const user = await User.findById(req.params.id);
@@ -125,7 +121,7 @@ router.put('/:id/follow', async (req, res) => {
 
 //unfollow a user
 
-router.put('/:id/unfollow', async (req, res) => {
+router.put('/:id/unfollow', authMiddleware, async (req, res) => {
   if (req.body.userId !== req.params.id) {
     try {
       const user = await User.findById(req.params.id);

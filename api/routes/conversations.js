@@ -1,11 +1,12 @@
 import express from 'express';
 import Conversation from '../models/Conversation.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
 //new conv
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   const newConversation = new Conversation({
     members: [req.body.senderId, req.body.receiverId],
   });
@@ -18,7 +19,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
   try {
     const conversation = await Conversation.find({});
     res.status(200).json(conversation);
@@ -29,7 +30,7 @@ router.get('/', async (req, res) => {
 
 //get conv of a user
 
-router.get('/:userId', async (req, res) => {
+router.get('/:userId', authMiddleware, async (req, res) => {
   try {
     const conversation = await Conversation.find({
       members: { $in: [req.params.userId] },
@@ -42,19 +43,23 @@ router.get('/:userId', async (req, res) => {
 
 // get conv includes two userId
 
-router.get('/find/:firstUserId/:secondUserId', async (req, res) => {
-  try {
-    const conversation = await Conversation.findOne({
-      members: { $all: [req.params.firstUserId, req.params.secondUserId] },
-    });
+router.get(
+  '/find/:firstUserId/:secondUserId',
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const conversation = await Conversation.findOne({
+        members: { $all: [req.params.firstUserId, req.params.secondUserId] },
+      });
 
-    res.status(200).json(conversation);
-  } catch (err) {
-    res.status(500).json(err);
+      res.status(200).json(conversation);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
-});
+);
 
-router.delete('/', async (req, res) => {
+router.delete('/', authMiddleware, async (req, res) => {
   try {
     await Conversation.deleteMany({});
     res.status(200).json({ message: 'deleted successfully' });

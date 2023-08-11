@@ -30,7 +30,6 @@ router.post('/register', async (req, res) => {
 
 //LOGIN
 router.post('/login', async (req, res) => {
-  console.log('here');
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
@@ -43,7 +42,6 @@ router.post('/login', async (req, res) => {
     );
 
     if (!validPassword) {
-      console.log('400');
       res.status(400).json('wrong password');
       return;
     }
