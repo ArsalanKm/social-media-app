@@ -1,0 +1,24 @@
+{
+  "name": "sbu-social-sales",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "repository": "git@github.com:ArsalanKm/social-media-app.git",
+  "author": "Araslankarimzad <karimzadarsalan@gmail.com>",
+  "scripts": {
+    "start": "node --experimental-json-modules index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@adminjs/express": "^6.0.0",
+    "@adminjs/mongoose": "^4.0.0",
+    "@adminjs/themes": "^1.0.0",
+    "adminjs": "^7.2.0",
+    "express": "^4.18.2",
+    "express-formidable": "^1.2.0",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.4.3",
+    "nodemon": "^3.0.1",
+    "tslib": "^2.6.1"
+  }
+}
