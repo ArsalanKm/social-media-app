@@ -2,6 +2,8 @@ import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Profile from './pages/profile/Profile';
 import Register from './pages/register/Register';
+
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import Topbar from './components/topbar/Topbar';
 import {
   BrowserRouter as Router,
@@ -21,8 +23,21 @@ import React from 'react';
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
 });
+
+export const theme = createTheme({
+  components: {
+    MuiUseMediaQuery: {
+      defaultProps: {
+        noSsr: true,
+      },
+    },
+  },
+});
+
 function App() {
   const { user, snackbar, dispatch } = useContext(AuthContext);
+  const theme = useTheme();
+  console.log(theme);
   return (
     <Router>
       <Topbar />

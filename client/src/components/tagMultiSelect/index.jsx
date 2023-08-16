@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -27,7 +26,6 @@ function getStyles(name, personName, theme) {
 }
 
 export default function TagMultiSelect({ tags, onclick }) {
-   const theme = useTheme();
    const [personName, setPersonName] = React.useState([]);
 
    const handleChange = (event) => {
@@ -58,7 +56,7 @@ export default function TagMultiSelect({ tags, onclick }) {
                         onclick(el);
                      }}
                      value={el.name}
-                     style={getStyles(el.name, personName, theme)}
+                     style={getStyles(el.name, personName)}
                   >
                      {el.name}
                   </MenuItem>
