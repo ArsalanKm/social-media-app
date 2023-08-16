@@ -6,7 +6,7 @@ import {
   WorkOutline,
   School,
   CloseOutlined,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
 import CloseFriend from '../closeFriend/CloseFriend';
@@ -14,7 +14,7 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useContext } from 'react';
 import { SearchContext } from '../../context/search/SearchContext';
 import { AuthContext } from '../../context/auth/AuthContext';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import instance from '../../http';
 
 const iconData = [

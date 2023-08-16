@@ -1,5 +1,5 @@
 import './topbar.css';
-import { Search, MenuOutlined } from '@material-ui/icons';
+import { Search, MenuOutlined } from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useContext } from 'react';

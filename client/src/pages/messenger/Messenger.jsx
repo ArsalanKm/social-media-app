@@ -3,7 +3,7 @@ import Conversation from '../../components/conversations/Conversation';
 import Message from '../../components/message/Message';
 import { IconButton, Button } from '@mui/material';
 
-import { CloseOutlined } from '@material-ui/icons';
+import { CloseOutlined } from '@mui/icons-material';
 import { useContext, useEffect, useRef, useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 

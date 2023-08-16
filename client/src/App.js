@@ -3,7 +3,7 @@ import Login from './pages/login/Login';
 import Profile from './pages/profile/Profile';
 import Register from './pages/register/Register';
 
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import Topbar from './components/topbar/Topbar';
 import {
   BrowserRouter as Router,
@@ -36,8 +36,6 @@ export const theme = createTheme({
 
 function App() {
   const { user, snackbar, dispatch } = useContext(AuthContext);
-  const theme = useTheme();
-  console.log(theme);
   return (
     <Router>
       <Topbar />

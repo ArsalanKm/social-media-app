@@ -4,7 +4,7 @@ import Online from '../online/Online';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
-import { Add, Remove } from '@material-ui/icons';
+import { Add, Remove } from '@mui/icons-material';
 import instance from '../../http';
 
 export default function Rightbar({ user }) {
@@ -92,29 +92,33 @@ export default function Rightbar({ user }) {
             <span className='rightbarInfoValue'>{user.username}</span>
           </div>
         </div>
-        <h4 className='rightbarTitle'>followings</h4>
-        <div className='rightbarFollowings'>
-          {friends.map((friend) => (
-            <Link
-              key={friend._id}
-              to={'/profile/' + friend.username}
-              style={{ textDecoration: 'none' }}
-            >
-              <div className='rightbarFollowing'>
-                <img
-                  src={
-                    friend.profilePicture
-                      ? PF + friend.profilePicture
-                      : PF + 'person/noAvatar.png'
-                  }
-                  alt=''
-                  className='rightbarFollowingImg'
-                />
-                <span className='rightbarFollowingName'>{friend.username}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {friends && friends.length > 0 && (
+          <>
+            <h4 className='rightbarTitle'>افرادی که دنبال میکند</h4>
+            <div className='rightbarFollowings'>
+              {friends.map((friend) => (
+                <Link
+                  key={friend._id}
+                  to={'/profile/' + friend.username}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <div className='rightbarFollowing'>
+                    <img
+                      src={
+                        friend.profilePicture
+                          ? PF + friend.profilePicture
+                          : PF + 'person/noAvatar.png'
+                      }
+                      alt=''
+                      className='rightbarFollowingImg'
+                    />
+                    <span className='rightbarFollowingName'>{friend.username}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
       </>
     );
   };

@@ -129,9 +129,7 @@ export default function Post({ post, fetchPosts }) {
             />
             <span className='postLikeCounter'>{like}نفر لایک کرده </span>
           </div>
-          <div className='postBottomRight'>
-            <span className='postCommentText'>{post.comment} کامنت</span>
-          </div>
+
         </div>
       </div>
     </div>

@@ -16,14 +16,6 @@ const MenuProps = {
    },
 };
 
-function getStyles(name, personName, theme) {
-   return {
-      fontWeight:
-         personName.indexOf(name) === -1
-            ? theme.typography.fontWeightRegular
-            : theme.typography.fontWeightMedium,
-   };
-}
 
 export default function TagMultiSelect({ tags, onclick }) {
    const [personName, setPersonName] = React.useState([]);
@@ -56,7 +48,6 @@ export default function TagMultiSelect({ tags, onclick }) {
                         onclick(el);
                      }}
                      value={el.name}
-                     style={getStyles(el.name, personName)}
                   >
                      {el.name}
                   </MenuItem>

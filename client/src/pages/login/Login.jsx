@@ -3,7 +3,7 @@ import './login.css';
 import { useHistory } from 'react-router-dom';
 import { loginCall } from '../../apiCalls';
 import { AuthContext } from '../../context/auth/AuthContext';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 import AuthInfo from '../../components/authIntro';
 
 export default function Login() {

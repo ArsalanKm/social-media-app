@@ -1,5 +1,5 @@
 import './share.css';
-import { PermMedia, Label, Cancel } from '@material-ui/icons';
+import { PermMedia, Label, Cancel } from '@mui/icons-material';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../context/auth/AuthContext';
 import TagMultiSelect from '../../components/tagMultiSelect';
