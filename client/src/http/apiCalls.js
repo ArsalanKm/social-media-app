@@ -1,4 +1,4 @@
-import instance from './http';
+import instance from '.';
 
 export const loginCall = async (userCredential, dispatch) => {
   // dispatch({ type: 'LOGIN_START' });
