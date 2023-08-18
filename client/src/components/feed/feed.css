@@ -8,6 +8,12 @@
   align-items: center;
 }
 
+.posts-container{
+  display: grid;
+  grid-template-areas: "post post"; /* 3 columns */
+  grid-template-columns: 380px 380px;
+  gap: 20px;
+}
 .feedWrapper {
   padding: 20px;
 }

@@ -72,14 +72,16 @@ export default function Post({ post, fetchPosts }) {
                 />
               ))}
             {post.userId === currentUser._id && (
-              <Button
-                onClick={() => onDelete(post._id)}
-                style={{ height: '30px' }}
-                variant='outlined'
-                color='error'
-              >
-                حذف
-              </Button>
+              <>
+                <Button
+                  onClick={() => onDelete(post._id)}
+                  style={{ height: '30px' }}
+                  variant='outlined'
+                  color='error'
+                >
+                  حذف
+                </Button>
+              </>
             )}
             {post.userId !== currentUser._id && (
               <Button
@@ -129,7 +131,6 @@ export default function Post({ post, fetchPosts }) {
             />
             <span className='postLikeCounter'>{like}نفر لایک کرده </span>
           </div>
-
         </div>
       </div>
     </div>

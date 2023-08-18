@@ -72,15 +72,20 @@
   margin-right: 20px;
   cursor: pointer;
   color: white;
+  width: 90px;
 }
 
 .shareImgContainer {
   padding: 0 20px 10px 20px;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .shareImg {
   width: 100%;
+  max-width: 300px;
+  max-height: 300px;
   object-fit: cover;
 }
 

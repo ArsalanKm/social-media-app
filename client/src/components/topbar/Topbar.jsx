@@ -10,6 +10,7 @@ import { setSearchAction } from '../../context/search/SearchActions';
 import { IconButton, Button } from '@mui/material';
 
 export default function Topbar() {
+
   const { user, dispatch: AuthDispatch } = useContext(AuthContext);
   const { search, dispatch } = useContext(SearchContext);
   const searchParams = new URLSearchParams(window.location.search);
@@ -30,8 +31,13 @@ export default function Topbar() {
         <div className={`${matches ? 'topbarRight' : ''}`}>
           <Link
             to='/'
-            style={{ textDecoration: 'none', width: '200px', display: 'block' }}
+            style={{ textDecoration: 'none', width: '200px', display: 'flex', gap: '5px', alignItems: 'center' }}
           >
+            <img
+              src={`${PF}logo.jpeg`}
+              style={{ background: "white", width: "38px", height: '38px' }}
+              alt=''
+            />
             <span className='logo'>خرید و فروش بهشتی</span>
           </Link>
           {matches && show && user && (

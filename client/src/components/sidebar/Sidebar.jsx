@@ -6,6 +6,7 @@ import {
   WorkOutline,
   School,
   CloseOutlined,
+  Build,
 } from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
@@ -37,6 +38,10 @@ const iconData = [
   {
     name: 'موقعیت شغلی',
     icon: <WorkOutline className='sidebarIcon' />,
+  },
+  {
+    name: 'لوازم منزل',
+    icon: <Build className='sidebarIcon' />,
   },
 ];
 export default function Sidebar() {
