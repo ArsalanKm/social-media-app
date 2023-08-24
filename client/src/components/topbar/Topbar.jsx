@@ -89,16 +89,37 @@ export default function Topbar() {
         {user && (
           <div className='user-header'>
             <Button
+              style={{
+                background: '#00d24e',
+                color: 'white'
+              }}
               onClick={() => {
                 AuthDispatch({ type: 'LOGOUT' });
                 localStorage.removeItem('user');
                 localStorage.removeItem('token');
               }}
-              variant='outlined'
-              color='error'
+            // variant='outlined'
+            // color='error'
             >
               خروج
             </Button>
+            <Link
+              style={{
+                background: '#00d24e',
+                color: 'white',
+                width: "80px",
+                borderRadius: "4px",
+                textDecoration: "none",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: "12px"
+              }}
+              to="/messenger"
+            // variant='outlined'
+            // color='error'
+            >
+              پیام رسان            </Link>
             {user && (
               <Link
                 style={{ display: 'flex', alignItems: 'center', gap: '5px' }}

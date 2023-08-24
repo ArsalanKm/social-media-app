@@ -64,7 +64,7 @@ export default function Share() {
             alt=''
           />
           <input
-            placeholder={user?.username + ' اگهی های خود را اشتراک بذارید '}
+            placeholder={user?.username + ' اگهی های خود را ثبت کنید '}
             className='shareInput'
             ref={desc}
           />
@@ -90,13 +90,11 @@ export default function Share() {
               />
             </label>
             <div className='shareOption'>
-              <Label htmlColor='blue' className='shareIcon' />
-              <span className='shareOptionText'>تگ</span>
               <TagMultiSelect onclick={handleTagClick} tags={tags} />
             </div>
           </div>
           <button className='shareButton' type='submit'>
-            اشتراک
+            ثبت آگهی
           </button>
         </form>
       </div>

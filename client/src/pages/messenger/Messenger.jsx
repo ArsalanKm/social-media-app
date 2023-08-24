@@ -56,7 +56,7 @@ export default function Messenger() {
     socket.current.emit('addUser', user._id);
     socket.current.on('getUsers', (users) => {
       setOnlineUsers(
-        users.filter(el => el.userId !== user._id)
+        users.filter((el) => el.userId !== user._id)
         // user.followings.filter((f) => users.some((u) => u.userId === f))
       );
     });
@@ -110,7 +110,7 @@ export default function Messenger() {
 
     try {
       const res = await instance.post('/messages', message);
-      setMessages([...messages, res.data]);
+      setMessages([...messages, message]);
       setNewMessage('');
     } catch (err) {
       console.log(err);
@@ -148,7 +148,9 @@ export default function Messenger() {
                   currentChat={currentChat}
                   conversation={c}
                   currentUser={user}
-                  online={onlineUsers.find(el => c.members.includes(el.userId))}
+                  online={onlineUsers.find((el) =>
+                    c.members.includes(el.userId)
+                  )}
                 />
               </div>
             ))}
@@ -160,7 +162,8 @@ export default function Messenger() {
               onClick={() => {
                 dispatch({ type: 'CONTACTS' });
               }}
-              color='info'
+              style={{ backgroundColor: "#00d24e", width: "100%" }}
+              variant='contained'
             >
               لیست مخاطبان
             </Button>
@@ -190,7 +193,7 @@ export default function Messenger() {
                 </>
               ) : (
                 <span className='noConversationText'>
-                  Open a conversation to start a chat.
+                  یکی از چت های خود را انتخاب کنید{' '}
                 </span>
               )}
             </div>

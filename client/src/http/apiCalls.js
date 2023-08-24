@@ -1,7 +1,6 @@
 import instance from '.';
 
 export const loginCall = async (userCredential, dispatch) => {
-  // dispatch({ type: 'LOGIN_START' });
   try {
     const res = await instance.post('/auth/login', userCredential);
     if (res.data.data.token) {
