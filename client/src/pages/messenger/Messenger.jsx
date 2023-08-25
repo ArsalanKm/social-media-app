@@ -9,8 +9,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/AuthContext';
-import { io } from 'socket.io-client';
 import instance from '../../http';
+import { socket } from './socket';
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -22,19 +22,25 @@ export default function Messenger() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const matches = useMediaQuery('(max-width:768px)');
 
-  const socket = useRef();
   const { user, contacts, dispatch } = useContext(AuthContext);
   const scrollRef = useRef();
 
+
   useEffect(() => {
-    socket.current = io('ws://localhost:8900');
-    socket.current.on('getMessage', (data) => {
+    function events(data) {
+
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
         createdAt: Date.now(),
       });
-    });
+
+    }
+    socket.on('getMessage', events);
+
+    return () => {
+      socket.off('getMessage', events);
+    };
   }, []);
 
   useEffect(() => {
@@ -53,8 +59,8 @@ export default function Messenger() {
   }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
-    socket.current.emit('addUser', user._id);
-    socket.current.on('getUsers', (users) => {
+    socket.emit('addUser', user._id);
+    socket.on('getUsers', (users) => {
       setOnlineUsers(
         users.filter((el) => el.userId !== user._id)
         // user.followings.filter((f) => users.some((u) => u.userId === f))
@@ -101,8 +107,9 @@ export default function Messenger() {
     const receiverId = currentChat.members.find(
       (member) => member !== user._id
     );
+    console.log(receiverId);
 
-    socket.current.emit('sendMessage', {
+    socket.emit('sendMessage', {
       senderId: user._id,
       receiverId,
       text: newMessage,
