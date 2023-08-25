@@ -10,7 +10,6 @@ import { setSearchAction } from '../../context/search/SearchActions';
 import { IconButton, Button } from '@mui/material';
 
 export default function Topbar() {
-
   const { user, dispatch: AuthDispatch } = useContext(AuthContext);
   const { search, dispatch } = useContext(SearchContext);
   const searchParams = new URLSearchParams(window.location.search);
@@ -31,11 +30,17 @@ export default function Topbar() {
         <div className={`${matches ? 'topbarRight' : ''}`}>
           <Link
             to='/'
-            style={{ textDecoration: 'none', width: '200px', display: 'flex', gap: '5px', alignItems: 'center' }}
+            style={{
+              textDecoration: 'none',
+              width: '200px',
+              display: 'flex',
+              gap: '5px',
+              alignItems: 'center',
+            }}
           >
             <img
               src={`${PF}logo.jpeg`}
-              style={{ background: "white", width: "38px", height: '38px' }}
+              style={{ background: 'white', width: '38px', height: '38px' }}
               alt=''
             />
             <span className='logo'>خرید و فروش بهشتی</span>
@@ -88,38 +93,41 @@ export default function Topbar() {
 
         {user && (
           <div className='user-header'>
-            <Button
-              style={{
-                background: '#00d24e',
-                color: 'white'
-              }}
-              onClick={() => {
-                AuthDispatch({ type: 'LOGOUT' });
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
-              }}
-            // variant='outlined'
-            // color='error'
-            >
-              خروج
-            </Button>
-            <Link
-              style={{
-                background: '#00d24e',
-                color: 'white',
-                width: "80px",
-                borderRadius: "4px",
-                textDecoration: "none",
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: "12px"
-              }}
-              to="/messenger"
-            // variant='outlined'
-            // color='error'
-            >
-              پیام رسان            </Link>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <Button
+                style={{
+                  background: '#00d24e',
+                  color: 'white',
+                }}
+                onClick={() => {
+                  AuthDispatch({ type: 'LOGOUT' });
+                  localStorage.removeItem('user');
+                  localStorage.removeItem('token');
+                }}
+              // variant='outlined'
+              // color='error'
+              >
+                خروج
+              </Button>
+              <Link
+                style={{
+                  background: '#00d24e',
+                  color: 'white',
+                  width: '80px',
+                  borderRadius: '4px',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                }}
+                to='/messenger'
+              // variant='outlined'
+              // color='error'
+              >
+                پیام رسان{' '}
+              </Link>
+            </div>
             {user && (
               <Link
                 style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
